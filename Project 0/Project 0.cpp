@@ -17,5 +17,4 @@ int main()
     {
 		cout << EnterNumber() << endl;
     }
-
 }
