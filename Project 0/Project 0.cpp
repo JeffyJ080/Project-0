@@ -12,7 +12,7 @@ static string EnterNumber()
 
 int main()
 {
-    cout << "Hello Jeffy\n";
+    cout << "Hello Jeffy" << endl;
     for (int i = 0; i < 10; i++)
     {
 		cout << EnterNumber() << endl;
