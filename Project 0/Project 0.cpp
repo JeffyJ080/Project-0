@@ -11,5 +11,4 @@ int main()
         cout << "You entered: " << i << endl;
     }
 
-    cout << "Hello Jeffy\n"; // Prints Hello Jeffy
 }
