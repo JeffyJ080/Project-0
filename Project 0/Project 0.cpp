@@ -1,6 +1,11 @@
 #include <iostream>
 using namespace std;
 
+static int EnterNumber(int iNumber)
+{
+    cout << "You entered: " << iNumber << endl;
+}
+
 int main()
 {
     cout << "Hello Jeffy\n";
@@ -8,7 +13,7 @@ int main()
     {
         cout << "Enter a number: ";
         cin >> i;
-        cout << "You entered: " << i << endl;
+		EnterNumber(i);
     }
 
 }
