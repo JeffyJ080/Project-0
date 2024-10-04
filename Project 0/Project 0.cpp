@@ -1,9 +1,13 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
-static int EnterNumber(int iNumber)
+static string EnterNumber()
 {
-    cout << "You entered: " << iNumber << endl;
+    string Input;
+    cout << "Enter a number: ";
+    getline(cin, Input);
+    return("You entered: " + Input);
 }
 
 int main()
@@ -11,9 +15,7 @@ int main()
     cout << "Hello Jeffy\n";
     for (int i = 0; i < 10; i++)
     {
-        cout << "Enter a number: ";
-        cin >> i;
-		EnterNumber(i);
+		cout << EnterNumber() << endl;
     }
 
 }
