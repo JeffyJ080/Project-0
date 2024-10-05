@@ -248,10 +248,14 @@ void gui::Render() noexcept
 	ImGui::SetNextWindowPos({ 0, 0 });
 	ImGui::SetNextWindowSize({ window_width, window_height });
 	ImGui::Begin("Project 0", &exit, 
-		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
+		ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
 
 	// Rendering code goes here
 	ImGui::Button("Hello, world!");
+	ImGui::SetItemTooltip("This is an example tooltip");
+
+	ImGui::Text("Hello, world!");
+	ImGui::SetItemTooltip("This is an example tooltip 1");
 
 	ImGui::End();
 }
