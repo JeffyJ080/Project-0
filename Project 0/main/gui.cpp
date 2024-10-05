@@ -247,7 +247,8 @@ void gui::Render() noexcept
 	// This is where we state what needs to be rendered
 	ImGui::SetNextWindowPos({ 0, 0 });
 	ImGui::SetNextWindowSize({ window_width, window_height });
-	ImGui::Begin("Project 0", &exit, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
+	ImGui::Begin("Project 0", &exit, 
+		ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 
 	// Rendering code goes here
 	ImGui::Button("Hello, world!");
