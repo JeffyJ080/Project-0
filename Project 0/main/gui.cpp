@@ -258,4 +258,6 @@ void gui::Render() noexcept
 	ImGui::SetItemTooltip("This is an example tooltip 1");
 
 	ImGui::End();
+
+	ImGui::ShowDemoWindow();
 }
