@@ -38,7 +38,9 @@ void gui::CreateImGui() noexcept
 
 void gui::DestroyImGui() noexcept
 {
-
+	ImGui_ImplDX9_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 }
 
 void gui::BeginRender() noexcept
