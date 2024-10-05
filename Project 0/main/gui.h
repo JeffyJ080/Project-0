@@ -12,7 +12,7 @@ namespace gui
 
 	// winapi window vars
 	inline HWND window = nullptr;
-	inline WNDCLASSEXA window_class = {  };
+	inline WNDCLASSEXA windowClass = {  };
 
 	// points for window movement
 	inline POINTS position = { };
