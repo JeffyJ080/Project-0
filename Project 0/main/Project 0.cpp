@@ -17,7 +17,6 @@ int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previousInstance, PWSTR arg
     {
         BeginRender();
 
-        
 
         Render();
         EndRender();
@@ -41,11 +40,11 @@ static string EnterNumber()
     return("You entered: " + Input);
 }
 
-int main()
-{
-    cout << "Hello Jeffy" << endl;
-    for (int i = 0; i < 10; i++)
-    {
-		cout << EnterNumber() << endl;
-    }
-}
+//int main()
+//{
+//    cout << "Hello Jeffy" << endl;
+//    for (int i = 0; i < 10; i++)
+//    {
+//		cout << EnterNumber() << endl;
+//    }
+//}
