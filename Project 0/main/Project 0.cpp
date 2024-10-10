@@ -9,7 +9,7 @@ using namespace gui;
 
 int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previousInstance, PWSTR arguments, int commandShow)
 {
-    CreateHWindow("Name 1", "Class 1");
+    CreateHWindow("Project 0", "Class 1");
     CreateDevice();
     CreateImGui();
 
