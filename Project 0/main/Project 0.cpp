@@ -16,8 +16,6 @@ int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previousInstance, PWSTR arg
     while (gui::exit)
     {
         BeginRender();
-
-
         Render();
         EndRender();
 

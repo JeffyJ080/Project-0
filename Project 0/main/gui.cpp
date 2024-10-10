@@ -106,7 +106,7 @@ void gui::CreateHWindow(
 	window = CreateWindowA(
 		className,
 		windowName,
-		WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX,
+		WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
 		100, // area where window will apear
 		100, // area where window will apear
 		window_width,
@@ -195,7 +195,7 @@ void gui::CreateImGui() noexcept
 
 	io.IniFilename = NULL;
 
-	ImGui::StyleColorsDark(); // Default style
+	ImGui::StyleColorsDark(0); // Default style
 
 	ImGui_ImplWin32_Init(window);
 	ImGui_ImplDX9_Init(device);
@@ -247,21 +247,41 @@ void gui::EndRender() noexcept
 		ResetDevice();
 }
 
+using namespace ImGui;
+
 void gui::Render() noexcept
 {
+	// Dock Window
+	DockSpaceOverViewport();
+
+	// Demo Window
+	ShowDemoWindow();
+
 	// This is where we state what needs to be rendered
 	//ImGui::SetNextWindowPos({ 0, 0 });
 	//ImGui::SetNextWindowSize({ window_width, window_height });
-	ImGui::Begin("Project 0");
+	Begin("Project 0", &exit, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize);
 
-	// Rendering code goes here
-	ImGui::Button("Hello, world!");
-	ImGui::SetItemTooltip("This is an example tooltip");
+	//// Rendering code goes here
+	Button("Hello, world!");
+	SetItemTooltip("This is an example tooltip");
 
-	ImGui::Text("Hello, world!");
-	ImGui::SetItemTooltip("This is an example tooltip 1");
+	Text("Hello, world!");
+	SetItemTooltip("This is an example tooltip 1");
 
-	ImGui::End();
+	End();
 
-	ImGui::ShowDemoWindow();
+	// ImGui Window
+	Begin("Project 1", 0, ImGuiWindowFlags_MenuBar);
+
+	SetWindowPos({ 0, 0 });
+	Button("Hello, world!");
+	SetItemTooltip("This is an example tooltip");
+
+	End();
+
+	// Menu bar
+	BeginMainMenuBar();
+
+	EndMainMenuBar();
 }
