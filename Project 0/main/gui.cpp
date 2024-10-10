@@ -67,7 +67,7 @@ long __stdcall WindowProcess(
 
 				if (gui::position.x >= 0 &&
 					gui::position.x <= gui::window_width &&
-					gui::position.y >= 0 && gui::position.y <= 19)
+					gui::position.y >= 0 && gui::position.y <= 20)
 					SetWindowPos(
 						gui::window,
 						HWND_TOPMOST,
@@ -106,7 +106,7 @@ void gui::CreateHWindow(
 	window = CreateWindowA(
 		className,
 		windowName,
-		WS_POPUP,
+		WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX,
 		100, // area where window will apear
 		100, // area where window will apear
 		window_width,
@@ -188,6 +188,11 @@ void gui::CreateImGui() noexcept
 	ImGui::CreateContext();
 	ImGuiIO& io = ::ImGui::GetIO();
 
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
+	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
 	io.IniFilename = NULL;
 
 	ImGui::StyleColorsDark(); // Default style
@@ -247,7 +252,7 @@ void gui::Render() noexcept
 	// This is where we state what needs to be rendered
 	//ImGui::SetNextWindowPos({ 0, 0 });
 	//ImGui::SetNextWindowSize({ window_width, window_height });
-	ImGui::Begin("Project 0", &exit);
+	ImGui::Begin("Project 0");
 
 	// Rendering code goes here
 	ImGui::Button("Hello, world!");
