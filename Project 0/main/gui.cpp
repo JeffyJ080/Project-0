@@ -45,6 +45,7 @@ long __stdcall WindowProcess(
 
 		case WM_DESTROY:
 		{
+			gui::exit = false;
 			PostQuitMessage(0);
 		}return 0;
 
@@ -67,7 +68,7 @@ long __stdcall WindowProcess(
 
 				if (gui::position.x >= 0 &&
 					gui::position.x <= gui::window_width &&
-					gui::position.y >= 0 && gui::position.y <= 20)
+					gui::position.y >= 0 && gui::position.y <= 15)
 					SetWindowPos(
 						gui::window,
 						HWND_TOPMOST,
@@ -106,7 +107,7 @@ void gui::CreateHWindow(
 	window = CreateWindowA(
 		className,
 		windowName,
-		WS_VISIBLE | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
+		WS_POPUP | WS_SIZEBOX,
 		100, // area where window will apear
 		100, // area where window will apear
 		window_width,
@@ -193,7 +194,7 @@ void gui::CreateImGui() noexcept
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
 	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-	io.IniFilename = NULL;
+	//io.IniFilename = NULL;
 
 	ImGui::StyleColorsDark(0); // Default style
 
@@ -251,19 +252,25 @@ using namespace ImGui;
 
 void gui::Render() noexcept
 {
+	// Variables
+
 	// Dock Window
 	DockSpaceOverViewport();
-
+	
 	// Demo Window
 	ShowDemoWindow();
 
-	// This is where we state what needs to be rendered
+	 //This is where we state what needs to be rendered
 	//ImGui::SetNextWindowPos({ 0, 0 });
 	//ImGui::SetNextWindowSize({ window_width, window_height });
-	Begin("Project 0", &exit, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoResize);
+
+	Begin("Project 0", &exit, ImGuiWindowFlags_NoResize);
 
 	//// Rendering code goes here
-	Button("Hello, world!");
+	if (Button("Hello, world!"))
+	{
+		MessageBox(0, "Hello, world!", "Hello, world!", 0);
+	}
 	SetItemTooltip("This is an example tooltip");
 
 	Text("Hello, world!");
@@ -272,16 +279,40 @@ void gui::Render() noexcept
 	End();
 
 	// ImGui Window
-	Begin("Project 1", 0, ImGuiWindowFlags_MenuBar);
+	Begin("Project 1");
 
-	SetWindowPos({ 0, 0 });
 	Button("Hello, world!");
 	SetItemTooltip("This is an example tooltip");
 
 	End();
 
 	// Menu bar
-	BeginMainMenuBar();
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Edit"))
+		{
+			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+			if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+			ImGui::Separator();
+			if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+			if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+			if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+			ImGui::EndMenu();
+		}
 
-	EndMainMenuBar();
+		SetCursorPosX(GetWindowWidth() - 50);
+		if (ImGui::BeginMenu("_"))
+		{
+
+		}
+		if (ImGui::BeginMenu("X"))
+		{
+
+		}
+		ImGui::EndMainMenuBar();
+	}
 }
