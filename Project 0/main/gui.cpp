@@ -304,14 +304,25 @@ void gui::Render() noexcept
 			ImGui::EndMenu();
 		}
 
-		SetCursorPosX(GetWindowWidth() - 50);
-		if (ImGui::BeginMenu("_"))
+		SetCursorPosX(GetWindowWidth() - 70);
+		if (ImGui::Button("_"))
 		{
-
+			ShowWindow(GetActiveWindow(), SW_MINIMIZE);
 		}
-		if (ImGui::BeginMenu("X"))
+		if (ImGui::Button("[]"))
 		{
-
+			if (IsZoomed(GetActiveWindow()))
+			{
+				ShowWindow(GetActiveWindow(), SW_RESTORE);
+			}
+			else
+			{
+				ShowWindow(GetActiveWindow(), SW_MAXIMIZE);
+			}
+		}
+		if (ImGui::Button("X"))
+		{
+			gui::exit = false; // Close the window
 		}
 		ImGui::EndMainMenuBar();
 	}
