@@ -4,6 +4,9 @@
 #include "../imgui/imgui_impl_dx9.h"
 #include "../imgui/imgui_impl_win32.h"
 
+bool isMaximised = false;
+
+
 // imported windows process manager
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
 	HWND Window, 
@@ -34,7 +37,10 @@ long __stdcall WindowProcess(
 				gui::presentPerameters.BackBufferWidth = LOWORD(longParameter);
 				gui::presentPerameters.BackBufferHeight = HIWORD(longParameter);
 
-				gui::ResetDevice();
+				gui::ResetDevice(); // This is the error for Maximising
+
+				// Reset window state tracking flags
+				isMaximised = (wideParameter == SIZE_MAXIMIZED);
 			}
 		}return 0;
 
@@ -174,16 +180,30 @@ void gui::DestroyDevice() noexcept
 
 void gui::ResetDevice() noexcept
 {
-	ImGui_ImplDX9_InvalidateDeviceObjects();
+	{
+		ImGui_ImplDX9_InvalidateDeviceObjects();
 
-	const auto result = device->Reset(&presentPerameters);
+		const auto result = device->Reset(&presentPerameters);
 
-	if (result == D3DERR_DEVICELOST)
-		return;
-	else if (result == D3DERR_INVALIDCALL)
-		IM_ASSERT(0);
+		if (result == D3DERR_DEVICELOST)
+		{
+			// Device is lost, so wait for it to be reset
+			return;
+		}
+		else if (result == D3DERR_INVALIDCALL)
+		{
+			// Invalid call indicates something went wrong
+			IM_ASSERT(0);
+		}
+		else if (result == D3DERR_OUTOFVIDEOMEMORY)
+		{
+			// Handle out of video memory error
+			MessageBox(NULL, "Out of video memory", "Error", MB_OK | MB_ICONERROR);
+			return;
+		}
 
-	ImGui_ImplDX9_CreateDeviceObjects();
+		ImGui_ImplDX9_CreateDeviceObjects();
+	}
 }
 
 void gui::CreateImGui() noexcept
@@ -253,10 +273,11 @@ void gui::EndRender() noexcept
 
 using namespace ImGui;
 
+bool p_open = true;
+
 void gui::Render() noexcept
 {
 	// Variables
-	bool p_open = true;
 
 	// Dock Window
 	DockSpaceOverViewport();
@@ -274,6 +295,8 @@ void gui::Render() noexcept
 	if (Button("Hello, world!"))
 	{
 		MessageBox(0, "Hello, world!", "Hello, world!", 0);
+		if (p_open == false)
+			p_open = true;
 	}
 	SetItemTooltip("This is an example tooltip");
 
@@ -318,22 +341,34 @@ void gui::Render() noexcept
 		SetCursorPosX(GetWindowWidth() - 70);
 		if (ImGui::Button("_"))
 		{
-			ShowWindow(GetActiveWindow(), SW_MINIMIZE);
+			ShowWindow(window, SW_MINIMIZE);
 		}
 		if (ImGui::Button("[]"))
 		{
-			if (IsZoomed(GetActiveWindow()))
+			if (window)
 			{
-				ShowWindow(GetActiveWindow(), SW_RESTORE);
-			}
-			else
-			{
-				ShowWindow(GetActiveWindow(), SW_MAXIMIZE);
+				if (IsZoomed(window))
+				{
+					if (isMaximised)
+					{
+						ShowWindow(window, SW_RESTORE);
+						isMaximised = false;
+					}
+				}
+				else
+				{
+					if (!isMaximised)
+					{
+						ShowWindow(window, SW_MAXIMIZE);
+						isMaximised = true;
+					}
+				}
 			}
 		}
 		if (ImGui::Button("X"))
 		{
 			gui::exit = false; // Close the window
+			PostQuitMessage(0);
 		}
 		ImGui::EndMainMenuBar();
 	}
