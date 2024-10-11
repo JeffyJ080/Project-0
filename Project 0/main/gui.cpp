@@ -26,6 +26,7 @@ long __stdcall WindowProcess(
 	switch (Message)
 	{
 		// resize algorithm
+		// chack gpt for new code to use
 		case WM_SIZE:
 		{
 			if (gui::device && wideParameter != SIZE_MINIMIZED)
@@ -177,7 +178,9 @@ void gui::ResetDevice() noexcept
 
 	const auto result = device->Reset(&presentPerameters);
 
-	if (result == D3DERR_INVALIDCALL)
+	if (result == D3DERR_DEVICELOST)
+		return;
+	else if (result == D3DERR_INVALIDCALL)
 		IM_ASSERT(0);
 
 	ImGui_ImplDX9_CreateDeviceObjects();
@@ -253,6 +256,7 @@ using namespace ImGui;
 void gui::Render() noexcept
 {
 	// Variables
+	bool p_open = true;
 
 	// Dock Window
 	DockSpaceOverViewport();
@@ -264,7 +268,7 @@ void gui::Render() noexcept
 	//ImGui::SetNextWindowPos({ 0, 0 });
 	//ImGui::SetNextWindowSize({ window_width, window_height });
 
-	Begin("Project 0", &exit, ImGuiWindowFlags_NoResize);
+	Begin("Project 0",0);
 
 	//// Rendering code goes here
 	if (Button("Hello, world!"))
@@ -279,13 +283,20 @@ void gui::Render() noexcept
 	End();
 
 	// ImGui Window
-	Begin("Project 1");
+	//Learn to close the window
+	if (p_open)
+	{
+		Begin("Project 1", &p_open);
 
-	Button("Hello, world!");
-	SetItemTooltip("This is an example tooltip");
+		Button("Hello, world!");
+		SetItemTooltip("This is an example tooltip");
 
-	End();
-
+		End();
+	}
+	else
+	{
+		
+	}
 	// Menu bar
 	if (ImGui::BeginMainMenuBar())
 	{

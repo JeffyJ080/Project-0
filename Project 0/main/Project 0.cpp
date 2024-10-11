@@ -15,6 +15,12 @@ int __stdcall wWinMain(HINSTANCE instance, HINSTANCE previousInstance, PWSTR arg
 
     while (gui::exit)
     {
+        if (device->TestCooperativeLevel() == D3DERR_DEVICELOST)
+        {
+            Sleep(100);  // Device is lost, wait for a short time before retrying
+            continue;
+        }
+
         BeginRender();
         gui::Render();
         EndRender();
