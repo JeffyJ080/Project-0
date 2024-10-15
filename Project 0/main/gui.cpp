@@ -114,7 +114,7 @@ void gui::CreateHWindow(
 	window = CreateWindowA(
 		className,
 		windowName,
-		WS_POPUP | WS_SIZEBOX,
+		WS_BORDER | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
 		100, // area where window will apear
 		100, // area where window will apear
 		window_width,
@@ -316,10 +316,7 @@ void gui::Render() noexcept
 
 		End();
 	}
-	else
-	{
-		
-	}
+
 	// Menu bar
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -337,39 +334,38 @@ void gui::Render() noexcept
 			if (ImGui::MenuItem("Paste", "CTRL+V")) {}
 			ImGui::EndMenu();
 		}
-
-		SetCursorPosX(GetWindowWidth() - 70);
-		if (ImGui::Button("_"))
-		{
-			ShowWindow(window, SW_MINIMIZE);
-		}
-		if (ImGui::Button("[]"))
-		{
-			if (window)
-			{
-				if (IsZoomed(window))
-				{
-					if (isMaximised)
-					{
-						ShowWindow(window, SW_RESTORE);
-						isMaximised = false;
-					}
-				}
-				else
-				{
-					if (!isMaximised)
-					{
-						ShowWindow(window, SW_MAXIMIZE);
-						isMaximised = true;
-					}
-				}
-			}
-		}
-		if (ImGui::Button("X"))
-		{
-			gui::exit = false; // Close the window
-			PostQuitMessage(0);
-		}
+		//SetCursorPosX(GetWindowWidth() - 70);
+		//if (ImGui::Button("_"))
+		//{
+		//	ShowWindow(window, SW_MINIMIZE);
+		//}
+		//if (ImGui::Button("[]"))
+		//{
+		//	if (window)
+		//	{
+		//		if (IsZoomed(window))
+		//		{
+		//			if (isMaximised)
+		//			{
+		//				ShowWindow(window, SW_RESTORE);
+		//				isMaximised = false;
+		//			}
+		//		}
+		//		else
+		//		{
+		//			if (!isMaximised)
+		//			{
+		//				ShowWindow(window, SW_MAXIMIZE);
+		//				isMaximised = true;
+		//			}
+		//		}
+		//	}
+		//}
+		//if (ImGui::Button("X"))
+		//{
+		//	gui::exit = false; // Close the window
+		//	PostQuitMessage(0);
+		//}
 		ImGui::EndMainMenuBar();
 	}
 }
