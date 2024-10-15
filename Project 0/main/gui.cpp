@@ -114,7 +114,7 @@ void gui::CreateHWindow(
 	window = CreateWindowA(
 		className,
 		windowName,
-		WS_BORDER | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
+		WS_BORDER | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX,
 		100, // area where window will apear
 		100, // area where window will apear
 		window_width,
